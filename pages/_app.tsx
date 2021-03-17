@@ -1,8 +1,13 @@
 import { AppProps } from 'next/app';
 import { CustomThemeProvider } from '../theme/Theme';
+import { Provider } from 'react-redux'
+import store from '../redux/store';
 
 export default function App({ Component, pageProps }: AppProps) {
-  return <CustomThemeProvider>
-    <Component {...pageProps} />
-  </CustomThemeProvider>
+  return <Provider store={store}>
+    <CustomThemeProvider>
+      <Component {...pageProps} />
+    </CustomThemeProvider>
+  </Provider>
+  
 }
