@@ -1,65 +1,128 @@
-import Head from 'next/head';
-import styles from '../styles/Home.module.css';
+import { Helmet } from 'react-helmet';
+import * as Yup from 'yup';
+import { Formik } from 'formik';
+import { Box, Button, Container, TextField, Typography } from '@material-ui/core';
 
-export default function Home() {
+export default function Login () {
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel='icon' href='/favicon.ico' />
-      </Head>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href='https://nextjs.org'>Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href='https://nextjs.org/docs' className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href='https://nextjs.org/learn' className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href='https://github.com/vercel/next.js/tree/master/examples'
-            className={styles.card}
+    <>
+      <Helmet>
+        <title>Login | Material Kit</title>
+      </Helmet>
+      <Box
+        style={{
+          backgroundColor: 'background.default',
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100%',
+          justifyContent: 'center',
+        }}
+      >
+        <Container maxWidth='sm'>
+          <Formik
+            initialValues={{
+              email: 'demo@devias.io',
+              password: 'Password123',
+            }}
+            validationSchema={Yup.object().shape({
+              email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+              password: Yup.string().max(255).required('Password is required'),
+            })}
+            onSubmit={() => {
+              // navigate('/app/dashboard', { replace: true });
+            }}
           >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href='https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app'
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href='https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          Powered by{' '}
-          <img src='/vercel.svg' alt='Vercel Logo' className={styles.logo} />
-        </a>
-      </footer>
-    </div>
+            {({
+                errors,
+                handleBlur,
+                handleChange,
+                handleSubmit,
+                isSubmitting,
+                touched,
+                values,
+              }) => (
+              <form onSubmit={handleSubmit}>
+                <Box mb={3}>
+                  <Typography
+                    color='textPrimary'
+                    variant='h2'
+                  >
+                    Sign in
+                  </Typography>
+                  <Typography
+                    color='textSecondary'
+                    gutterBottom
+                    variant='body2'
+                  >
+                    Sign in on the internal platform
+                  </Typography>
+                </Box>
+                <Box pb={1} pt={3}>
+                  <Typography
+                    align='center'
+                    color='textSecondary'
+                    variant='body1'
+                  >
+                    or login with email address
+                  </Typography>
+                </Box>
+                <TextField
+                  error={Boolean(touched.email && errors.email)}
+                  fullWidth
+                  helperText={touched.email && errors.email}
+                  label='Email Address'
+                  margin='normal'
+                  name='email'
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  type='email'
+                  value={values.email}
+                  variant='outlined'
+                />
+                <TextField
+                  error={Boolean(touched.password && errors.password)}
+                  fullWidth
+                  helperText={touched.password && errors.password}
+                  label='Password'
+                  margin='normal'
+                  name='password'
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  type='password'
+                  value={values.password}
+                  variant='outlined'
+                />
+                <Box py={2}>
+                  <Button
+                    color='primary'
+                    disabled={isSubmitting}
+                    fullWidth
+                    size='large'
+                    type='submit'
+                    variant='contained'
+                  >
+                    Sign in now
+                  </Button>
+                </Box>
+                <Typography
+                  color='textSecondary'
+                  variant='body1'
+                >
+                  Don&apos;t have an account?
+                  {' '}
+                  {/*<Link*/}
+                  {/*  component={RouterLink}*/}
+                  {/*  to='/register'*/}
+                  {/*  variant='h6'*/}
+                  {/*>*/}
+                  {/*  Sign up*/}
+                  {/*</Link>*/}
+                </Typography>
+              </form>
+            )}
+          </Formik>
+        </Container>
+      </Box>
+    </>
   );
-}
+};

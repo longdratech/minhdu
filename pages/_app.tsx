@@ -1,6 +1,6 @@
 import { AppProps } from 'next/app';
 import { CustomThemeProvider } from '../theme/Theme';
-import { Provider } from 'react-redux'
+import { Provider } from 'react-redux';
 import store from '../redux/store';
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -8,6 +8,6 @@ export default function App({ Component, pageProps }: AppProps) {
     <CustomThemeProvider>
       <Component {...pageProps} />
     </CustomThemeProvider>
-  </Provider>
-  
+  </Provider>;
+
 }
